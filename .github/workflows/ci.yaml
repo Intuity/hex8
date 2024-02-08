@@ -14,11 +14,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      # 2. Bootstrap
+      # 2. Install Python
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # 3. Setup poetry
+      - shell: bash
+        run: python3 -m pip install poetry
+      # 4. Bootstrap
       - uses: ./.github/composites/shell
         with:
           script: bw bootstrap
-      # 3. Simple environment test
+      # 5. Simple environment test
       - uses: ./.github/composites/shell
         with:
           script: bw exec -- echo "ready"
