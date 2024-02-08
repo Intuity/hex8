@@ -8,6 +8,7 @@ on:
 jobs:
   flow:
     name: Flow
+    runs-on: ubuntu-22.04
     steps:
       # 1. Checkout
       - uses: actions/checkout@v4
