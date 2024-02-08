@@ -11,21 +11,26 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       # 1. Checkout
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           submodules: recursive
       # 2. Install Python
-      - uses: actions/setup-python@v5
+      - name: Install Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      # 3. Setup poetry
-      - shell: bash
+      # 3. Install Poetry
+      - name: Install Poetry
+        shell: bash
         run: python3 -m pip install poetry
       # 4. Bootstrap
-      - uses: ./.github/composites/shell
+      - name: Blockwork Bootstrap
+        uses: ./.github/composites/shell
         with:
           script: bw bootstrap
       # 5. Simple environment test
-      - uses: ./.github/composites/shell
+      - name: Test Blockwork
+        uses: ./.github/composites/shell
         with:
           script: bw exec -- echo "ready"

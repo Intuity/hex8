@@ -15,7 +15,7 @@ echo "# Checking that poetry dependencies are up to date"
 echo "# ======================================================================="
 echo ""
 poetry lock
-poetry install
+poetry install --no-root
 
 # Source the poetry environment
 source $(poetry env info --path)/bin/activate
