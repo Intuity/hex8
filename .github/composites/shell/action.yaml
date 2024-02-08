@@ -10,7 +10,7 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run:
+      run: |
         SCRIPT=$(mktemp)
         echo "${{ inputs.script }}" >> $SCRIPT
         chmod +x $SCRIPT
