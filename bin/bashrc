@@ -1,0 +1,11 @@
+# Customise the PS1
+PS1='[H8] \W \\$> '
+
+# Source the poetry environment (but don't modify the PS1)
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+source $WS_POETRY_ENV_PATH/bin/activate
+
+# Set the history file path and make it update immediately
+export HISTFILE=$WS_ROOT/bin/.bash_history
+shopt -s histappend
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Get path to this script
+SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+# Check that poetry is available
+if ! command -v poetry &> /dev/null ; then
+    echo "ERROR: Poetry is not available"
+    exit 1
+fi
+
+# Ensure poetry dependencies are up to date
+echo "# ======================================================================="
+echo "# Checking that poetry dependencies are up to date"
+echo "# ======================================================================="
+echo ""
+poetry lock
+poetry install
+
+# Source the poetry environment
+source $(poetry env info --path)/bin/activate
+
+# Start a stripped-back and customised shell
+# NOTES:
+#   * BASH_SILENCE_DEPRECATION_WARNING: Silences a warning on macOS about bash
+#   * WS_ROOT/WS_POETRY_ENV_PATH: Identify the repo and the poetry environment
+#   * USER/HOME/EDITOR/TERM: Provide a minimal required set of environment state
+#
+echo ""
+echo "# ======================================================================="
+echo "# Starting the shell"
+echo "# ======================================================================="
+echo ""
+env -i \
+    BASH_SILENCE_DEPRECATION_WARNING=1 \
+    WS_ROOT=$(readlink -f $SCRIPT_DIR/..) \
+    WS_POETRY_ENV_PATH=$(poetry env info --path) \
+    USER=$USER \
+    HOME=$HOME \
+    EDITOR=$EDITOR \
+    TERM=$TERM \
+    bash --rcfile $SCRIPT_DIR/bashrc

@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "hex8"
+version = "1.0.0"
+description = "Building a simple CPU in a robust way"
+authors = ["Peter Birch <peter@intuity.io>"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+blockwork = {git = "https://github.com/blockwork-eda/blockwork.git", rev = "1576d9a03ac139d8d011687858d816b7e5c7e8a3"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
