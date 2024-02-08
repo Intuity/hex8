@@ -1,0 +1,20 @@
+name: Run in Shell
+description: Runs a step inside a the `./bin/shell` environment
+
+inputs:
+  script:
+    description: Script to run
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run:
+        SCRIPT=$(mktemp)
+        echo "${{ inputs.script }}" >> $SCRIPT
+        chmod +x $SCRIPT
+        ./bin/shell $SCRIPT
+        EXITCODE=$?
+        rm $SCRIPT
+        exit $EXITCODE

@@ -1,0 +1,23 @@
+name: Hex8 CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  flow:
+    name: Flow
+    steps:
+      # 1. Checkout
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      # 2. Bootstrap
+      - uses: ./.github/composites/shell
+        with:
+          script: bw bootstrap
+      # 3. Simple environment test
+      - uses: ./.github/composites/shell
+        with:
+          script: bw exec -- echo "ready"

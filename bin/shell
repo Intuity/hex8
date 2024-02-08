@@ -20,23 +20,46 @@ poetry install
 # Source the poetry environment
 source $(poetry env info --path)/bin/activate
 
+# If a command is provided run it...
+RUNSCRIPT=""
+if [[ "$@" != "" ]]; then
+    RUNSCRIPT=$(mktemp)
+    echo "# Placing command into script $RUNSCRIPT"
+    echo "$@" >> $RUNSCRIPT
+
+# ...else start an interactive shell
+else
+    echo ""
+    echo "# ==================================================================="
+    echo "# Starting the shell"
+    echo "# ==================================================================="
+    echo ""
+fi
+
 # Start a stripped-back and customised shell
 # NOTES:
 #   * BASH_SILENCE_DEPRECATION_WARNING: Silences a warning on macOS about bash
 #   * WS_ROOT/WS_POETRY_ENV_PATH: Identify the repo and the poetry environment
-#   * USER/HOME/EDITOR/TERM: Provide a minimal required set of environment state
+#   * USER/HOME/EDITOR/TERM/PATH: Provide a minimal required environment
 #
-echo ""
-echo "# ======================================================================="
-echo "# Starting the shell"
-echo "# ======================================================================="
-echo ""
 env -i \
     BASH_SILENCE_DEPRECATION_WARNING=1 \
     WS_ROOT=$(readlink -f $SCRIPT_DIR/..) \
     WS_POETRY_ENV_PATH=$(poetry env info --path) \
-    USER=$USER \
-    HOME=$HOME \
-    EDITOR=$EDITOR \
-    TERM=$TERM \
-    bash --rcfile $SCRIPT_DIR/bashrc
+    USER="$USER" \
+    HOME="$HOME" \
+    EDITOR="$EDITOR" \
+    TERM="$TERM" \
+    PATH="$PATH" \
+    bash --rcfile $SCRIPT_DIR/bashrc $RUNSCRIPT
+
+# Capture the exit code
+EXIT_CODE=$?
+
+# Clean up the run script
+if [[ -f $RUNSCRIPT ]]; then
+    echo "# Removing $RUNSCRIPT"
+fi
+
+# Forward the exit code
+exit $EXIT_CODE
