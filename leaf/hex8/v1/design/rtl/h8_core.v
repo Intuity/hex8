@@ -1,4 +1,4 @@
-// Copyright 2023, Blockwork, github.com/intuity/blockwork
+// Copyright 2024, Peter Birch, mailto:peter@intuity.io
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
 // limitations under the License.
 
 module h8_core (
-      input  wire i_clk
-    , input  wire i_rst
+      input  wire       i_clk
+    , input  wire       i_rst
     // Instruction Memory
     , output wire [7:0] o_imem_req_addr
     , output wire       o_imem_req_valid
