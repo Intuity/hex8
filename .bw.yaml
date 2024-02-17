@@ -1,2 +1,12 @@
 !Blockwork
-project: hex8
+project   : hex8
+site      : ./site.yaml
+tooldefs  :
+  - infra.tools.compilers
+  - infra.tools.simulators
+transforms:
+  - infra.transforms.lint
+workflows :
+  - infra.workflows.lint
+config    :
+  - infra.config.module
