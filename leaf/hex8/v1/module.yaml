@@ -1,0 +1,4 @@
+!Module
+top: h8_core
+sources:
+  - design/rtl/h8_core.v

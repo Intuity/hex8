@@ -29,7 +29,7 @@ class VerilatorLintTransform(Transform):
         self.bind_inputs(module=module)
 
     def execute(self, ctx, tools, iface):
-        hdr_dirs = { x.parent for x in iface.headers }
+        hdr_dirs = { x.parent for x in iface.module.headers }
         yield tools.verilator.get_action("run")(ctx,
                                                 "--lint-only",
                                                 "-Wall",

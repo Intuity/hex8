@@ -24,9 +24,9 @@ from ..transforms.lint import VerilatorLintTransform
 
 class Module(base.Config):
     top: str
-    headers: list[str]
-    packages: list[str]
-    sources: list[str]
+    headers: list[str] = field(default_factory=list)
+    packages: list[str] = field(default_factory=list)
+    sources: list[str] = field(default_factory=list)
     transforms: list[Transform] = field(default_factory=list)
 
     def iter_config(self):

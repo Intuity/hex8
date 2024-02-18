@@ -18,13 +18,14 @@ from blockwork.build.transform import Transform
 from blockwork.config.base import Config
 from blockwork.workflows.workflow import Workflow
 
+from ..config.module import Module
 from ..transforms.lint import VerilatorLintTransform
 
 
 class Lint(Config):
     target: Config
 
-    @Workflow("lint").with_target()
+    @Workflow("lint").with_target(Module)
     @staticmethod
     def from_command(ctx, project, target):
         return Lint(target=target)
