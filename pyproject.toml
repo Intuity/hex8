@@ -9,6 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 blockwork = {git = "https://github.com/blockwork-eda/blockwork.git", rev = "1576d9a03ac139d8d011687858d816b7e5c7e8a3"}
+awscli = "^1.32.44"
 
 
 [build-system]

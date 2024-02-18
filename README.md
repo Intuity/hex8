@@ -3,11 +3,21 @@ Building a simple CPU in a robust way
 
 ## Creating Archives for All Tools
 
-```bash```
+```bash
 for x in $(ls -d ./*/*/); do
     y=${x:2};
     z=$(echo ${y:0:$((${#y}-1))} | tr '/.' '__');
     echo "# Creating ${z}.zip";
-    echo zip -r ${z}.zip $x;
+    zip -r ${z}.zip $x;
 done
+```
+
+## Uploading to Cloudflare R2
+
+```bash
+aws s3api put-object \
+          --endpoint-url https://<account>.r2.cloudflarestorage.com \
+          --bucket <bucket> \
+          --key <TARGET> \
+          --body <LOCAL>
 ```
