@@ -24,13 +24,27 @@ jobs:
       - name: Install Poetry
         shell: bash
         run: python3 -m pip install poetry
-      # 4. Bootstrap
+      # 4. Authenticate with the object store
+      - name: Authenticate with R2
+        uses: ./.github/composites/shell
+        with:
+          script: |
+            bw tool objstore.authenticate ${{ secrets.R2_ENDPOINT_URL }} \
+                                          ${{ secrets.R2_ACCESS_KEY }} \
+                                          ${{ secrets.R2_SECRET_KEY }} \
+                                          ${{ secrets.R2_BUCKET }}
+      # 5. Bootstrap
       - name: Blockwork Bootstrap
         uses: ./.github/composites/shell
         with:
           script: bw bootstrap
-      # 5. Simple environment test
+      # 6. Simple environment test
       - name: Test Blockwork
         uses: ./.github/composites/shell
         with:
           script: bw exec -- echo "ready"
+      # 7. Lint the design
+      - name: Linting
+        uses: ./.github/composites/shell
+        with:
+          script: bw wf lint -t leaf/hex8 -p v1
