@@ -2,18 +2,18 @@
 
 [[package]]
 name = "awscli"
-version = "1.32.44"
+version = "1.32.45"
 description = "Universal Command Line Environment for AWS."
 category = "main"
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "awscli-1.32.44-py3-none-any.whl", hash = "sha256:359ffdf40a0576db0e69731435f31d8d02efc86144fa91f78cf3f64e77cf0681"},
-    {file = "awscli-1.32.44.tar.gz", hash = "sha256:e23bbc474d24042b2024a3ec119ef6569b6f4d6cb91386a3b2e65b5d15c82d29"},
+    {file = "awscli-1.32.45-py3-none-any.whl", hash = "sha256:a5a0f1bce71bf1c202d9b407ffdf75082ce08ce72c949659f3babe0e400f6956"},
+    {file = "awscli-1.32.45.tar.gz", hash = "sha256:4bbc3e0b1f9226ef40852a46af8f8459396b20707691f14c417a7e272c792087"},
 ]
 
 [package.dependencies]
-botocore = "1.34.44"
+botocore = "1.34.45"
 colorama = ">=0.2.5,<0.4.5"
 docutils = ">=0.10,<0.17"
 PyYAML = ">=3.10,<6.1"
@@ -26,7 +26,7 @@ version = "1.0"
 description = "An opionated EDA flow"
 category = "main"
 optional = false
-python-versions = "^3.8"
+python-versions = "^3.9"
 files = []
 develop = false
 
@@ -41,19 +41,38 @@ typeguard = "^4.1"
 [package.source]
 type = "git"
 url = "https://github.com/blockwork-eda/blockwork.git"
-reference = "1576d9a03ac139d8d011687858d816b7e5c7e8a3"
-resolved_reference = "1576d9a03ac139d8d011687858d816b7e5c7e8a3"
+reference = "36b990c781f6dcdeaeabb963da39344b02db5785"
+resolved_reference = "36b990c781f6dcdeaeabb963da39344b02db5785"
+
+[[package]]
+name = "boto3"
+version = "1.34.45"
+description = "The AWS SDK for Python"
+category = "main"
+optional = false
+python-versions = ">= 3.8"
+files = [
+    {file = "boto3-1.34.45-py3-none-any.whl", hash = "sha256:5c96bed1269f77788780aa2005811dc3a37d4122f08b8e54063a1f4c1b9314a1"},
+]
+
+[package.dependencies]
+botocore = ">=1.34.45,<1.35.0"
+jmespath = ">=0.7.1,<2.0.0"
+s3transfer = ">=0.10.0,<0.11.0"
+
+[package.extras]
+crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.34.44"
+version = "1.34.45"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "botocore-1.34.44-py3-none-any.whl", hash = "sha256:8d9837fb33256e70b9c8955a32d3e60fa70a0b72849a909737cf105fcc3b5deb"},
-    {file = "botocore-1.34.44.tar.gz", hash = "sha256:b0f40c54477e8e0a5c43377a927b8959a86bb8824aaef2d28db7c9c367cdefaa"},
+    {file = "botocore-1.34.45-py3-none-any.whl", hash = "sha256:e17874ac708fef295d2ea16bb2570ea0512c920de9f25f796de0d8c778f06a02"},
+    {file = "botocore-1.34.45.tar.gz", hash = "sha256:bf4fe24dd00a6262a27573dea1690ea68eb20f939e7086effadf19aa1acb44d1"},
 ]
 
 [package.dependencies]
@@ -635,4 +654,4 @@ test = ["websockets"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3edacf5a900e951a558ee88384363f587f4593096e08c4001434cd9624986a15"
+content-hash = "b31dad856c133e5688a8afb3d17d37a0b72787a042a47d662b90c0c969c82f16"

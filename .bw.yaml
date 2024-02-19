@@ -2,6 +2,7 @@
 project   : hex8
 site      : ./site.yaml
 tooldefs  :
+  - infra.tools.objstore
   - infra.tools.compilers
   - infra.tools.simulators
 transforms:

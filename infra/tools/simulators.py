@@ -19,6 +19,7 @@ from blockwork.context import Context
 from blockwork.tools import Invocation, Require, Tool, Version
 
 from .compilers import GCC, Autoconf, Bison, CCache, Flex, Help2Man
+from .objstore import from_objstore
 
 
 @Tool.register()
@@ -49,6 +50,7 @@ class Verilator(Tool):
         return Invocation(version=version, execute="verilator", args=args)
 
     @Tool.installer("Verilator")
+    @from_objstore
     def install(self, ctx: Context, version: Version, *args: list[str]) -> Invocation:
         vernum = version.version
         tool_dir = Path("/tools") / version.location.relative_to(Tool.HOST_ROOT)
@@ -60,6 +62,7 @@ class Verilator(Tool):
             f"./configure --prefix={tool_dir.as_posix()}",
             "make -j4",
             "make install",
+            "cd ..",
             f"rm -rf verilator-{vernum} ./*.tar.*",
         ]
         return Invocation(
