@@ -12,21 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections.abc import Iterable
-from pathlib import Path
+from dataclasses import dataclass
 
-from blockwork.transforms import IFace
-from blockwork.common.complexnamespaces import ReadonlyNamespace
+from forastero import BaseTransaction
+
+@dataclass(kw_only=True)
+class ByteMemoryRequest(BaseTransaction):
+    address: int = 0
+    write: bool = False
+    data: int = 0
 
 
-class ModuleInterface(IFace):
-    headers: Iterable[Path] = IFace.FIELD(default_factory=list)
-    packages: Iterable[Path] = IFace.FIELD(default_factory=list)
-    sources: Iterable[Path] = IFace.FIELD(default_factory=list)
-
-    def resolve(self):
-        return {
-            "headers": list(self.headers),
-            "packages": list(self.packages),
-            "sources": list(self.sources),
-        }
+@dataclass(kw_only=True)
+class ByteMemoryResponse(BaseTransaction):
+    data: int = 0

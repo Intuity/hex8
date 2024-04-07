@@ -33,9 +33,9 @@ class Module(base.Config):
         yield from self.transforms
 
     def to_interface(self) -> ModuleInterface:
-        return ModuleInterface(headers=map(self.api.file_interface, self.headers),
-                               packages=map(self.api.file_interface, self.packages),
-                               sources=map(self.api.file_interface, self.sources))
+        return ModuleInterface(headers=map(self.api.path, self.headers),
+                               packages=map(self.api.path, self.packages),
+                               sources=map(self.api.path, self.sources))
 
     def iter_transforms(self) -> Iterable[Transform]:
-        yield VerilatorLintTransform(self.to_interface())
+        yield VerilatorLintTransform(module=self.to_interface())

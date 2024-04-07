@@ -12,21 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections.abc import Iterable
-from pathlib import Path
+from enum import IntEnum, auto
+from dataclasses import dataclass
 
-from blockwork.transforms import IFace
-from blockwork.common.complexnamespaces import ReadonlyNamespace
+from forastero import BaseTransaction
+
+from .h8_pkg import Instruction
 
 
-class ModuleInterface(IFace):
-    headers: Iterable[Path] = IFace.FIELD(default_factory=list)
-    packages: Iterable[Path] = IFace.FIELD(default_factory=list)
-    sources: Iterable[Path] = IFace.FIELD(default_factory=list)
+class Hex8MemoryOp(IntEnum):
+    NOTHING = auto()
+    LOAD = auto()
+    STORE = auto()
 
-    def resolve(self):
-        return {
-            "headers": list(self.headers),
-            "packages": list(self.packages),
-            "sources": list(self.sources),
-        }
+
+@dataclass(kw_only=True)
+class Hex8State(BaseTransaction):
+    pc: int = 0
+    op: Instruction = Instruction()
+    areg: int = 0
+    breg: int = 0
+    memory: Hex8MemoryOp = Hex8MemoryOp.NOTHING
+    address: int = 0
+    data: int = 0

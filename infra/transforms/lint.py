@@ -14,7 +14,7 @@
 
 from typing import ClassVar
 
-from blockwork.build import Transform
+from blockwork.transforms import Transform
 from blockwork.tools import Tool
 
 from ..interfaces.module import ModuleInterface
@@ -22,17 +22,14 @@ from ..tools.simulators import Verilator
 
 
 class VerilatorLintTransform(Transform):
-    tools: ClassVar[list[Tool]] = [Verilator]
-
-    def __init__(self, module: ModuleInterface):
-        super().__init__()
-        self.bind_inputs(module=module)
+    tools: ClassVar[tuple[Tool]] = (Verilator, )
+    module: ModuleInterface = Transform.IN()
 
     def execute(self, ctx, tools, iface):
-        hdr_dirs = { x.parent for x in iface.module.headers }
+        hdr_dirs = { x.parent for x in iface.module["headers"] }
         yield tools.verilator.get_action("run")(ctx,
                                                 "--lint-only",
                                                 "-Wall",
                                                 *[f"+incdir+{x}" for x in hdr_dirs],
-                                                *iface.module.packages,
-                                                *iface.module.sources)
+                                                *iface.module["packages"],
+                                                *iface.module["sources"])

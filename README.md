@@ -1,3 +1,5 @@
+[![Hex8 CI](https://github.com/Intuity/hex8/actions/workflows/ci.yaml/badge.svg)](https://github.com/Intuity/hex8/actions/workflows/ci.yaml)
+
 # hex8
 Building a simple CPU in a robust way
 

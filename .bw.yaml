@@ -5,8 +5,7 @@ tooldefs  :
   - infra.tools.objstore
   - infra.tools.compilers
   - infra.tools.simulators
-transforms:
-  - infra.transforms.lint
+  - infra.tools.python
 workflows :
   - infra.workflows.lint
 config    :

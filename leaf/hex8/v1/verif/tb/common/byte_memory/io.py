@@ -12,21 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections.abc import Iterable
-from pathlib import Path
-
-from blockwork.transforms import IFace
-from blockwork.common.complexnamespaces import ReadonlyNamespace
+from cocotb.handle import HierarchyObject
+from forastero import BaseIO, IORole
 
 
-class ModuleInterface(IFace):
-    headers: Iterable[Path] = IFace.FIELD(default_factory=list)
-    packages: Iterable[Path] = IFace.FIELD(default_factory=list)
-    sources: Iterable[Path] = IFace.FIELD(default_factory=list)
+class ByteMemoryIO(BaseIO):
 
-    def resolve(self):
-        return {
-            "headers": list(self.headers),
-            "packages": list(self.packages),
-            "sources": list(self.sources),
-        }
+    def __init__(self,
+                 dut: HierarchyObject,
+                 name: str,
+                 role: IORole) -> None:
+        super().__init__(
+            dut,
+            name,
+            role,
+            ["req_addr", "req_data", "req_write", "req_valid"],
+            ["rsp_data"],
+        )
