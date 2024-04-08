@@ -19,39 +19,38 @@ from blockwork.context import Context
 from blockwork.tools import Invocation, Require, Tool, Version
 
 from .compilers import GCC
-from .git import Git
 
 
 @Tool.register()
-class Python(Tool):
+class Curl(Tool):
     versions: ClassVar[list[Version]] = [
         Version(
-            location=Tool.HOST_ROOT / "python" / "3.12.2",
-            version="3.12.2",
-            requires=[Require(GCC, "13.1.0"),
-                      Require(Git, "2.44.0")],
+            location=Tool.HOST_ROOT / "curl" / "8.7.1",
+            version="8.7.1",
+            requires=[Require(GCC, "13.1.0")],
             paths={
                 "PATH": [Tool.CNTR_ROOT / "bin"],
                 "LD_LIBRARY_PATH": [Tool.CNTR_ROOT / "lib"],
+                "C_INCLUDE_PATH": [Tool.CNTR_ROOT / "include"],
+                "CPLUS_INCLUDE_PATH": [Tool.CNTR_ROOT / "include"],
             },
             default=True,
         ),
     ]
 
-    @Tool.installer("Python")
+    @Tool.installer("Curl")
     def install(self, ctx: Context, version: Version, *args: list[str]) -> Invocation:
         vernum = version.version
         tool_dir = Path("/tools") / version.location.relative_to(Tool.HOST_ROOT)
         script = [
-            f"wget --quiet https://www.python.org/ftp/python/{vernum}/Python-{vernum}.tgz",
-            f"tar -xf Python-{vernum}.tgz",
-            f"cd Python-{vernum}",
-            f"./configure --enable-optimizations --with-ensurepip=install "
-            f"--enable-shared --prefix={tool_dir.as_posix()}",
+            f"wget --quiet https://curl.se/download/curl-{vernum}.tar.gz",
+            f"tar -xf curl-{vernum}.tar.gz",
+            f"cd curl-{vernum}",
+            f"./configure --prefix={tool_dir.as_posix()} --with-openssl",
             "make -j4",
             "make install",
             "cd ..",
-            f"rm -rf Python-{vernum} ./*.tgz*",
+            f"rm -rf curl-{vernum} ./*.tar.gz*",
         ]
         return Invocation(
             version=version,
@@ -62,38 +61,40 @@ class Python(Tool):
 
 
 @Tool.register()
-class PythonSite(Tool):
+class Expat(Tool):
     versions: ClassVar[list[Version]] = [
         Version(
-            location=Tool.HOST_ROOT / "python-site" / "3.12.2",
-            version="3.12.2",
-            env={"PYTHONUSERBASE": Tool.CNTR_ROOT},
+            location=Tool.HOST_ROOT / "expat" / "2.6.2",
+            version="2.6.2",
+            requires=[Require(GCC, "13.1.0")],
             paths={
                 "PATH": [Tool.CNTR_ROOT / "bin"],
-                "PYTHONPATH": [Tool.CNTR_ROOT / "lib" / "python3.11" / "site-packages"],
+                "LD_LIBRARY_PATH": [Tool.CNTR_ROOT / "lib"],
+                "C_INCLUDE_PATH": [Tool.CNTR_ROOT / "include"],
+                "CPLUS_INCLUDE_PATH": [Tool.CNTR_ROOT / "include"],
             },
-            requires=[Require(Python, "3.12.2")],
             default=True,
         ),
     ]
 
-    @Tool.action("PythonSite")
-    def run(self, ctx: Context, version: Version, *args: list[str]) -> Invocation:
-        return Invocation(version=version, execute="python3", args=args)
-
-    @Tool.installer("PythonSite")
+    @Tool.installer("Expat")
     def install(self, ctx: Context, version: Version, *args: list[str]) -> Invocation:
+        vernum = version.version
+        tool_dir = Path("/tools") / version.location.relative_to(Tool.HOST_ROOT)
+        script = [
+            f"wget --quiet https://github.com/libexpat/libexpat/releases/download"
+            f"/R_{vernum.replace('.', '_')}/expat-{vernum}.tar.gz",
+            f"tar -xf expat-{vernum}.tar.gz",
+            f"cd expat-{vernum}",
+            f"./configure --prefix={tool_dir.as_posix()}",
+            "make -j4",
+            "make install",
+            "cd ..",
+            f"rm -rf expat-{vernum} ./*.tar.gz*",
+        ]
         return Invocation(
             version=version,
-            execute="python3",
-            args=[
-                "-m",
-                "pip",
-                "--no-cache-dir",
-                "install",
-                "-r",
-                ctx.host_root / "infra" / "tools" / "pythonsite.txt",
-            ],
-            interactive=True,
-            host=True,
+            execute="bash",
+            args=["-c", " && ".join(script)],
+            workdir=tool_dir,
         )

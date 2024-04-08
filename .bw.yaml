@@ -4,6 +4,8 @@ site      : ./site.yaml
 tooldefs  :
   - infra.tools.objstore
   - infra.tools.compilers
+  - infra.tools.libs
+  - infra.tools.git
   - infra.tools.simulators
   - infra.tools.python
 workflows :
